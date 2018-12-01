@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://dubbo.apache.org/schema/dubbo
+       http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <!-- 提供方应用信息,用于计算依赖关系 -->
+    <dubbo:application name="Dubbo-provider" id="provider"/>
+
+    <!-- 暴露zookeeper广播注册中心服务地址 -->
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+
+    <!-- 用dubbo协议在20880端口暴露服务 -->
+    <dubbo:protocol name="dubbo" port="20880"/>
+
+    <!-- 提供暴露的服务接口,即在注册中心注册自己提供的接口服务 -->
+    <dubbo:service interface="com.xp.api.IUser" ref="userService" timeout="60000"/>
+    <dubbo:service interface="com.xp.api.IComment" ref="commentService" timeout="60000"/>
+
+    <!-- 接口服务指向的实现类,以此提供服务 -->
+    <bean id="userService" class="com.xp.service.UserService"/>
+    <bean id="commentService" class="com.xp.service.CommentService"/>
+
+</beans>
